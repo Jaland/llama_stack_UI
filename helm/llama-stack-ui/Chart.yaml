@@ -1,0 +1,13 @@
+apiVersion: v2
+name: llama-stack-ui
+description: A Helm chart for deploying Llama Stack UI on OpenShift
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - llama
+  - ui
+  - openshift
+maintainers:
+  - name: OpenHands Team
+    email: openhands@all-hands.dev

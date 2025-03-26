@@ -1,0 +1,47 @@
+{{- if .Values.client.route.enabled }}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "llama-stack-ui.fullname" . }}-client
+  labels:
+    {{- include "llama-stack-ui.labels" . | nindent 4 }}
+    app.kubernetes.io/component: client
+spec:
+  {{- if .Values.client.route.host }}
+  host: {{ .Values.client.route.host }}
+  {{- end }}
+  path: {{ .Values.client.route.path }}
+  to:
+    kind: Service
+    name: {{ include "llama-stack-ui.fullname" . }}-client
+  port:
+    targetPort: http
+  {{- if .Values.client.route.tls.enabled }}
+  tls:
+    termination: {{ .Values.client.route.tls.termination }}
+  {{- end }}
+{{- end }}
+---
+{{- if .Values.server.route.enabled }}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "llama-stack-ui.fullname" . }}-server
+  labels:
+    {{- include "llama-stack-ui.labels" . | nindent 4 }}
+    app.kubernetes.io/component: server
+spec:
+  {{- if .Values.server.route.host }}
+  host: {{ .Values.server.route.host }}
+  {{- end }}
+  path: {{ .Values.server.route.path }}
+  to:
+    kind: Service
+    name: {{ include "llama-stack-ui.fullname" . }}-server
+  port:
+    targetPort: http
+  {{- if .Values.server.route.tls.enabled }}
+  tls:
+    termination: {{ .Values.server.route.tls.termination }}
+  {{- end }}
+{{- end }}

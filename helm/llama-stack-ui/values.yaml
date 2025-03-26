@@ -1,0 +1,72 @@
+global:
+  nameOverride: ""
+  fullnameOverride: ""
+
+client:
+  name: client
+  replicaCount: 1
+  image:
+    repository: llama-stack-ui-client
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  route:
+    enabled: true
+    host: ""
+    path: /
+    tls:
+      enabled: true
+      termination: edge
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+server:
+  name: server
+  replicaCount: 1
+  image:
+    repository: llama-stack-ui-server
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 54243
+    targetPort: 54243
+  route:
+    enabled: true
+    host: ""
+    path: /api
+    tls:
+      enabled: true
+      termination: edge
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    - name: NODE_ENV
+      value: production
+    - name: PORT
+      value: "54243"
+    - name: HOST
+      value: "0.0.0.0"
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000680000
+  fsGroup: 1000680000
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000680000
+  fsGroup: 1000680000
