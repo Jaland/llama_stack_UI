@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "58440:80"
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "54243:54243"
+    environment:
+      - NODE_ENV=production
+      - PORT=54243
+      - HOST=0.0.0.0
